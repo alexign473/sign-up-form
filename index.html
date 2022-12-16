@@ -8,60 +8,63 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div>
-      <img src="img/background.jpg" alt="wet fern" width="600" />
-      <div>
-        <img src="img/odin-lined.png" alt="odin-logo" width="100" />
-        <h1>ODIN</h1>
-      </div>
-    </div>
-
-    <div>
-      <header class="form-header">
-        <h2>
-          This is not a real online service! You know you need something like
-          this in your life to help you realize your deepest dreams. <br />
-          Sigh-up <em>now</em> to get started.
-        </h2>
-        <h2>You <em>know</em> you want to.</h2>
-      </header>
-
-      <form class="sign-up-form">
-        <div>
-          <h3>Let's do this!</h3>
-
-          <div class="form-input">
-            <label for="first-name">First name</label>
-            <input type="text" id="first-name" name="first-name" />
-          </div>
-          <div class="form-input">
-            <label for="last-name">Last name</label>
-            <input type="text" id="last-name" name="last-name" />
-          </div>
-          <div class="form-input">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" />
-          </div>
-          <div class="form-input">
-            <label for="phone">Phone number</label>
-            <input type="tel" id="phone" name="phone" />
-          </div>
-          <div class="form-input">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" />
-          </div>
-          <div class="form-input">
-            <label for="confirm-password">Confirm password</label>
-            <input
-              type="password"
-              id="confirm-password"
-              name="confirm-password"
-            />
-          </div>
+    <div class="container">
+      <div class="bg-img">
+        <div class="logo">
+          <img src="img/odin-lined.png" alt="odin-logo" width="100" />
+          <h1>ODIN</h1>
         </div>
-        <button>Create Account</button>
-      </form>
-      <p>Already have an account? <a href="#">Log in</a></p>
+      </div>
+
+      <div class="form-block">
+        <header class="form-header section-p">
+          <h2>
+            This is not a real online service! You know you need something like
+            this in your life to help you realize your deepest dreams. <br />
+            Sigh-up <em>now</em> to get started.
+          </h2>
+          <h2>You <em>know</em> you want to.</h2>
+        </header>
+
+        <div class="form-inputs section-p">
+          <h3>Let's do this!</h3>
+          <form class="sign-up-form" id="sign-up-form">
+            <div class="form-input">
+              <label for="first-name">First name</label>
+              <input type="text" id="first-name" name="first-name" />
+            </div>
+            <div class="form-input">
+              <label for="last-name">Last name</label>
+              <input type="text" id="last-name" name="last-name" />
+            </div>
+            <div class="form-input">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" />
+            </div>
+            <div class="form-input">
+              <label for="phone">Phone number</label>
+              <input type="tel" id="phone" name="phone" />
+            </div>
+            <div class="form-input">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" />
+            </div>
+            <div class="form-input">
+              <label for="confirm-password">Confirm password</label>
+              <input
+                type="password"
+                id="confirm-password"
+                name="confirm-password"
+              />
+            </div>
+          </form>
+        </div>
+
+        <div class="form-submit section-p">
+          <button form="sign-up-form">Create Account</button>
+          <p>Already have an account? <a href="#">Log in</a></p>
+        </div>
+      </div>
     </div>
   </body>
 </html>
