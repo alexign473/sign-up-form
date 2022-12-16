@@ -3,6 +3,10 @@
   src: url(fonts/Norse-Bold.otf);
 }
 
+body {
+  font-family: sans-serif;
+}
+
 h1 {
   font-family: Norse-bold, sans-serif;
 }
