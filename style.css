@@ -172,6 +172,8 @@ button {
 
 .form-submit {
   padding-top: 40px;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-submit p {
@@ -188,7 +190,7 @@ button {
 @media (width >=64em) {
   .bg-img {
     display: flex;
-    width: 40%;
+    width: 50%;
   }
   .form-header,
   .sign-up-form {
@@ -200,6 +202,11 @@ button {
   }
   .form-input {
     width: 50%;
-    padding-right: 130px;
+  }
+  .form-input input {
+    width: max(280px, 70%);
+  }
+  .form-submit {
+    align-items: flex-start;
   }
 }
