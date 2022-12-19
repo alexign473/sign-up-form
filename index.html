@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign-up</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
     <div class="container">
@@ -30,32 +35,53 @@
           <h3>Let's do this!</h3>
           <form class="sign-up-form" id="sign-up-form">
             <div class="form-input">
-              <label for="first-name">First name</label>
+              <label for="first-name">First name *</label>
+              <i class="fas fa-user"></i>
               <input type="text" id="first-name" name="first-name" />
+              <i class="fas fa-exclamation-circle failure-icon"></i>
+              <i class="far fa-check-circle success-icon"></i>
+
+              <div class="error"></div>
             </div>
             <div class="form-input">
               <label for="last-name">Last name</label>
               <input type="text" id="last-name" name="last-name" />
             </div>
             <div class="form-input">
-              <label for="email">Email</label>
+              <label for="email">Email *</label>
+              <i class="far fa-envelope"></i>
               <input type="email" id="email" name="email" />
+              <i class="fas fa-exclamation-circle failure-icon"></i>
+              <i class="far fa-check-circle success-icon"></i>
+
+              <div class="error"></div>
             </div>
             <div class="form-input">
               <label for="phone">Phone number</label>
+              <i class="fa fa-phone"></i>
               <input type="tel" id="phone" name="phone" />
             </div>
             <div class="form-input">
-              <label for="password">Password</label>
+              <label for="password">Password *</label>
+              <i class="fas fa-lock"></i>
               <input type="password" id="password" name="password" />
+              <i class="fas fa-exclamation-circle failure-icon"></i>
+              <i class="far fa-check-circle success-icon"></i>
+
+              <div class="error"></div>
             </div>
             <div class="form-input">
-              <label for="confirm-password">Confirm password</label>
+              <label for="confirm-password">Confirm password *</label>
+              <i class="fas fa-lock"></i>
               <input
                 type="password"
                 id="confirm-password"
                 name="confirm-password"
               />
+              <i class="fas fa-exclamation-circle failure-icon"></i>
+              <i class="far fa-check-circle success-icon"></i>
+
+              <div class="error"></div>
             </div>
           </form>
         </div>
@@ -66,5 +92,6 @@
         </div>
       </div>
     </div>
+    <script src="main.js"></script>
   </body>
 </html>
