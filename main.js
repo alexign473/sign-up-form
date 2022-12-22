@@ -10,26 +10,61 @@ const firstName = select('#first-name'),
   successIcon = classes('success-icon'),
   failureIcon = classes('failure-icon');
 
-const engine = (input, index, message) => {
+const showError = (input, index, message) => {
+  errorMsg[index].textContent = message;
+  input.style.border = '2px solid var(--c-border-error)';
+  // icons
+  failureIcon[index].style.opacity = '1';
+  successIcon[index].style.opacity = '0';
+};
+
+const showSuccess = (input, index) => {
+  errorMsg[index].textContent = '';
+  input.style.border = '2px solid green';
+  // icons
+  failureIcon[index].style.opacity = '0';
+  successIcon[index].style.opacity = '1';
+};
+
+const checkRequired = (input, index, message) => {
   if (input.value.trim() === '') {
-    errorMsg[index].textContent = message;
-    input.style.border = '2px solid var(--c-border-error)';
-    // icons
-    failureIcon[index].style.opacity = '1';
-    successIcon[index].style.opacity = '0';
+    showError(input, index, message);
+    return false;
   } else {
-    errorMsg[index].textContent = '';
-    input.style.border = '2px solid green';
-    // icons
-    failureIcon[index].style.opacity = '0';
-    successIcon[index].style.opacity = '1';
+    showSuccess(input, index);
+    return true;
   }
+};
+
+const checkPassword = (password, index) => {
+  if (!checkRequired(password, index, 'Please enter a password')) return;
+
+  if (!isPasswordSecured(password.value.trim())) {
+    showError(
+      password,
+      index,
+      'Password must has at least 8 characters that include at least 1 uppercase character, 1 lowercase character and 1 number'
+    );
+  }
+};
+
+const checkConfirmPassword = (confirmPassword, index) => {
+  if (!checkRequired(confirmPassword, index, 'Please confirm your password'))
+    return;
+  if (password.value.trim() !== confirmPassword.value.trim()) {
+    showError(confirmPassword, index, 'Passwords do not match');
+  }
+};
+
+const isPasswordSecured = (password) => {
+  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+  return re.test(password);
 };
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  engine(firstName, 0, 'Please enter your name');
-  engine(email, 1, 'Please enter an email address');
-  engine(password, 2, 'Please enter a password');
-  engine(confirmPassword, 3, 'Please enter a password');
+  checkRequired(firstName, 0, 'Please enter your name');
+  checkRequired(email, 1, 'Please enter an email address');
+  checkPassword(password, 2);
+  checkConfirmPassword(confirmPassword, 3);
 });
