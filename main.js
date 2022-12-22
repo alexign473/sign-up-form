@@ -68,3 +68,17 @@ form.addEventListener('submit', (e) => {
   checkPassword(password, 2);
   checkConfirmPassword(confirmPassword, 3);
 });
+
+form.addEventListener('input', (e) => {
+  switch (e.target.id) {
+    case 'first-name':
+      checkRequired(firstName, 0, 'Please enter your name');
+      break;
+    case 'password':
+      checkPassword(password, 2);
+      break;
+    case 'confirm-password':
+      checkConfirmPassword(confirmPassword, 3);
+      break;
+  }
+});
