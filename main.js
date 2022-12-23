@@ -61,6 +61,20 @@ const isPasswordSecured = (password) => {
   return re.test(password);
 };
 
+const debounce = (fn, delay = 500) => {
+  let timeoutId;
+  return (...args) => {
+    // cancel the previous timer
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    // setup a new timer
+    timeoutId = setTimeout(() => {
+      fn.apply(null, args);
+    }, delay);
+  };
+};
+
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   checkRequired(firstName, 0, 'Please enter your name');
@@ -69,16 +83,19 @@ form.addEventListener('submit', (e) => {
   checkConfirmPassword(confirmPassword, 3);
 });
 
-form.addEventListener('input', (e) => {
-  switch (e.target.id) {
-    case 'first-name':
-      checkRequired(firstName, 0, 'Please enter your name');
-      break;
-    case 'password':
-      checkPassword(password, 2);
-      break;
-    case 'confirm-password':
-      checkConfirmPassword(confirmPassword, 3);
-      break;
-  }
-});
+form.addEventListener(
+  'input',
+  debounce((e) => {
+    switch (e.target.id) {
+      case 'first-name':
+        checkRequired(firstName, 0, 'Please enter your name');
+        break;
+      case 'password':
+        checkPassword(password, 2);
+        break;
+      case 'confirm-password':
+        checkConfirmPassword(confirmPassword, 3);
+        break;
+    }
+  })
+);
