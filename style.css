@@ -8,7 +8,7 @@
   --c-button: #596d48;
   --c-border: #e5e7eb;
   --c-border-focus: #407fc7;
-  --c-border-error: #d55c5f;
+  --c-error: #d55c5f;
 }
 
 /*
@@ -78,7 +78,7 @@ h2 {
 
 .failure-icon,
 .error {
-  color: var(--c-border-error);
+  color: var(--c-error);
 }
 
 .success-icon {

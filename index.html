@@ -11,6 +11,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
       crossorigin="anonymous"
     />
+    <script src="main.js" defer></script>
   </head>
   <body>
     <div class="container">
@@ -37,7 +38,12 @@
             <div class="form-input">
               <label for="first-name">First name *</label>
               <i class="fas fa-user"></i>
-              <input type="text" id="first-name" name="first-name" />
+              <input
+                type="text"
+                id="first-name"
+                name="first-name"
+                data-required="yep"
+              />
               <i class="fas fa-exclamation-circle failure-icon"></i>
               <i class="far fa-check-circle success-icon"></i>
 
@@ -46,6 +52,10 @@
             <div class="form-input">
               <label for="last-name">Last name</label>
               <input type="text" id="last-name" name="last-name" />
+              <i class="fas fa-exclamation-circle failure-icon"></i>
+              <i class="far fa-check-circle success-icon"></i>
+
+              <div class="error"></div>
             </div>
             <div class="form-input">
               <label for="email">Email *</label>
@@ -59,7 +69,11 @@
             <div class="form-input">
               <label for="phone">Phone number</label>
               <i class="fa fa-phone"></i>
-              <input type="tel" id="phone" name="phone" />
+              <input type="tel" id="phone" name="phone" inputmode="numeric" />
+              <i class="fas fa-exclamation-circle failure-icon"></i>
+              <i class="far fa-check-circle success-icon"></i>
+
+              <div class="error"></div>
             </div>
             <div class="form-input">
               <label for="password">Password *</label>
@@ -92,6 +106,5 @@
         </div>
       </div>
     </div>
-    <script src="main.js"></script>
   </body>
 </html>

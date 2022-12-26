@@ -12,7 +12,7 @@ const firstName = select('#first-name'),
 
 const showError = (input, index, message) => {
   errorMsg[index].textContent = message;
-  input.style.border = '2px solid var(--c-border-error)';
+  input.style.border = '2px solid var(--c-error)';
   // icons
   failureIcon[index].style.opacity = '1';
   successIcon[index].style.opacity = '0';
@@ -36,29 +36,66 @@ const checkRequired = (input, index, message) => {
   }
 };
 
-const checkPassword = (password, index) => {
-  if (!checkRequired(password, index, 'Please enter a password')) return;
+const checkEmail = (email, index) => {
+  if (!checkRequired(email, index, 'Please enter an email address'))
+    return false;
 
-  if (!isPasswordSecured(password.value.trim())) {
+  if (!email.checkValidity()) {
+    showError(email, index, 'Please enter a valid email');
+    return false;
+  } else {
+    return true;
+  }
+};
+
+const checkPassword = (password, index) => {
+  if (!checkRequired(password, index, 'Please enter a password')) return false;
+
+  if (!isPasswordSecure(password.value.trim())) {
     showError(
       password,
       index,
       'Password must has at least 8 characters that include at least 1 uppercase character, 1 lowercase character and 1 number'
     );
+    return false;
+  } else {
+    return true;
   }
 };
 
 const checkConfirmPassword = (confirmPassword, index) => {
   if (!checkRequired(confirmPassword, index, 'Please confirm your password'))
-    return;
+    return false;
   if (password.value.trim() !== confirmPassword.value.trim()) {
     showError(confirmPassword, index, 'Passwords do not match');
+    return false;
+  } else {
+    return true;
   }
 };
 
-const isPasswordSecured = (password) => {
+const checkPhone = (phone, index) => {
+  if (!isPhoneNumbers(+phone.value.trim())) {
+    showError(
+      phone,
+      index,
+      'The phone number must be a 10 digit or less number'
+    );
+    return false;
+  } else {
+    showSuccess(phone, index);
+    return true;
+  }
+};
+
+const isPasswordSecure = (password) => {
   const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
   return re.test(password);
+};
+
+const isPhoneNumbers = (number) => {
+  const re = /^[0-9]{10}$/;
+  return re.test(number);
 };
 
 const debounce = (fn, delay = 500) => {
@@ -75,27 +112,51 @@ const debounce = (fn, delay = 500) => {
   };
 };
 
-form.addEventListener('submit', (e) => {
+const submitForm = (e) => {
   e.preventDefault();
-  checkRequired(firstName, 0, 'Please enter your name');
-  checkRequired(email, 1, 'Please enter an email address');
-  checkPassword(password, 2);
-  checkConfirmPassword(confirmPassword, 3);
-});
 
-form.addEventListener(
-  'input',
-  debounce((e) => {
-    switch (e.target.id) {
-      case 'first-name':
-        checkRequired(firstName, 0, 'Please enter your name');
-        break;
-      case 'password':
-        checkPassword(password, 2);
-        break;
-      case 'confirm-password':
-        checkConfirmPassword(confirmPassword, 3);
-        break;
-    }
-  })
-);
+  const isFirstNameValid = checkRequired(
+    firstName,
+    0,
+    'Please enter your name'
+  );
+  const isEmailValid = checkEmail(email, 2);
+  const isPasswordValid = checkPassword(password, 4);
+  const isConfirmPasswordValid = checkConfirmPassword(confirmPassword, 5);
+
+  const isFormValid =
+    isFirstNameValid &&
+    isEmailValid &&
+    isPasswordValid &&
+    isConfirmPasswordValid;
+
+  if (!isFormValid) {
+    e.preventDefault();
+    console.log('not valid');
+  } else {
+    console.log('valid');
+  }
+};
+
+const validateInput = (e) => {
+  switch (e.target.id) {
+    case 'first-name':
+      checkRequired(firstName, 0, 'Please enter your name');
+      break;
+    case 'email':
+      checkEmail(email, 2);
+      break;
+    case 'phone':
+      checkPhone(phone, 3);
+      break;
+    case 'password':
+      checkPassword(password, 4);
+      break;
+    case 'confirm-password':
+      checkConfirmPassword(confirmPassword, 5);
+      break;
+  }
+};
+
+form.addEventListener('submit', submitForm);
+form.addEventListener('input', debounce(validateInput));
