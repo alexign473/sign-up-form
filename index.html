@@ -42,7 +42,8 @@
                 type="text"
                 id="first-name"
                 name="first-name"
-                data-required="yep"
+                required
+                minlength="2"
               />
               <i class="fas fa-exclamation-circle error-icon"></i>
               <i class="far fa-check-circle success-icon"></i>
@@ -60,28 +61,25 @@
             <div class="form-group">
               <label for="email">Email *</label>
               <i class="far fa-envelope"></i>
-              <input type="email" id="email" name="email" />
+              <input type="email" id="email" name="email" required />
               <i class="fas fa-exclamation-circle error-icon"></i>
               <i class="far fa-check-circle success-icon"></i>
-
               <div class="error"></div>
             </div>
             <div class="form-group">
               <label for="phone">Phone number</label>
               <i class="fa fa-phone"></i>
-              <input type="tel" id="phone" name="phone" inputmode="numeric" />
+              <input type="tel" id="phone" name="phone" />
               <i class="fas fa-exclamation-circle error-icon"></i>
               <i class="far fa-check-circle success-icon"></i>
-
               <div class="error"></div>
             </div>
             <div class="form-group">
               <label for="password">Password *</label>
               <i class="fas fa-lock"></i>
-              <input type="password" id="password" name="password" />
+              <input type="password" id="password" name="password" required />
               <i class="fas fa-exclamation-circle error-icon"></i>
               <i class="far fa-check-circle success-icon"></i>
-
               <div class="error"></div>
             </div>
             <div class="form-group">
@@ -91,10 +89,10 @@
                 type="password"
                 id="confirm-password"
                 name="confirm-password"
+                required
               />
               <i class="fas fa-exclamation-circle error-icon"></i>
               <i class="far fa-check-circle success-icon"></i>
-
               <div class="error"></div>
             </div>
           </form>
