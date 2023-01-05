@@ -1,10 +1,6 @@
 const select = (selector) => document.querySelector(selector);
 
-const firstName = select('#first-name'),
-  email = select('#email'),
-  password = select('#password'),
-  confirmPassword = select('#confirm-password'),
-  form = select('#sign-up-form');
+const form = select('#sign-up-form');
 
 const showError = (input, message) => {
   const formGroup = input.parentElement;
@@ -30,69 +26,97 @@ const showSuccess = (input) => {
   successIcon.style.opacity = '1';
 };
 
-const checkRequired = (input, message) => {
-  if (input.required && input.value.trim() === '') {
-    showError(input, message);
-    return false;
-  } else {
+const options = [
+  {
+    attribute: 'required',
+    invalid: (input) => input.value.trim() === '',
+    errorMessage: (input) => {
+      const { id } = input;
+      switch (id) {
+        case 'first-name':
+          return 'Please enter your name';
+        case 'email':
+          return 'Please enter an email address';
+        case 'password':
+          return 'Please enter a password';
+        case 'confirm-password':
+          return 'Please confirm your password';
+        default:
+          return 'This field is required';
+      }
+    },
+  },
+  {
+    attribute: 'minlength',
+    invalid: (input) => input.value && input.value.length < +input.minLength,
+    errorMessage: (input) =>
+      `This field must be at least ${input.minLength} characters.`,
+  },
+];
+
+const validations = {
+  email: {
+    isValid: (input) => input.checkValidity(),
+    errorMessage: 'Please enter a valid email',
+  },
+  password: {
+    isValid: (input) => {
+      const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+      return re.test(input.value);
+    },
+    errorMessage:
+      'Password must has at least 8 characters that include at least 1 uppercase character, 1 lowercase character and 1 number',
+  },
+  'confirm-password': {
+    isValid: (input) => {
+      const matchSelector = input.dataset.match;
+      const matchedElem = document.querySelector(`#${matchSelector}`);
+      return matchedElem && matchedElem.value === input.value;
+    },
+    errorMessage: 'Passwords do not match',
+  },
+};
+
+const validateOptions = (input) => {
+  let isValid = true;
+
+  for (option of options) {
+    if (input.hasAttribute(option.attribute) && option.invalid(input)) {
+      const errorMessage = option.errorMessage(input);
+      showError(input, errorMessage);
+      isValid = false;
+    }
+  }
+  if (isValid) {
     showSuccess(input);
-    return true;
-  }
-};
-
-const checkEmail = (input) => {
-  if (!checkRequired(input, 'Please enter an email address')) return false;
-
-  const isValid = input.checkValidity();
-  if (!isValid) {
-    showError(input, 'Please enter a valid email');
   }
   return isValid;
 };
 
-const checkPassword = (input) => {
-  if (!checkRequired(input, 'Please enter a password')) return false;
+const validateSingleInput = (input) => {
+  const { id } = input;
+  let isValid = true;
 
-  const isValid = isPasswordSecure(input.value);
-  if (!isValid) {
-    showError(
-      input,
-      'Password must has at least 8 characters that include at least 1 uppercase character, 1 lowercase character and 1 number'
-    );
+  let isOptionsValid = validateOptions(input);
+  if (!isOptionsValid) {
+    return;
   }
+  if (validations[id]?.isValid) {
+    isValid = validations[id].isValid(input);
+    if (!isValid) {
+      showError(input, validations[id].errorMessage);
+    } else {
+      showSuccess(input);
+    }
+  }
+
   return isValid;
 };
 
-const checkConfirmPassword = (password, confirmPassword) => {
-  if (!checkRequired(confirmPassword, 'Please confirm your password'))
-    return false;
-
-  const isValid = password.value.trim() === confirmPassword.value.trim();
-  if (!isValid) {
-    showError(confirmPassword, 'Passwords do not match');
-  }
-  return isValid;
-};
-
-const checkPhone = (phone) => {
-  if (!checkRequired(phone, 'Please enter a phone')) return false;
-
-  const isValid = isPhoneNumbers(phone.value.trim());
-  if (!isValid) {
-    showError(phone, 'The phone number must be a 10 digit or less number');
-  }
-  return isValid;
-};
-
-const isPasswordSecure = (password) => {
-  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
-  return re.test(password);
-};
-
-const isPhoneNumbers = (number) => {
-  const re = /^[0-9]{10}$/;
-  return re.test(+number);
-};
+// const isPhoneNumbers = (number) => {
+//   const re = /^[0-9]{10}$/;
+//   return re.test(+number);
+// };
 
 const debounce = (fn, delay = 500) => {
   let timeoutId;
@@ -109,14 +133,8 @@ const debounce = (fn, delay = 500) => {
 };
 
 const validateForm = () => {
-  const isFormValid = [
-    checkRequired(firstName, 'Please enter your name'),
-    checkEmail(email),
-    checkPassword(password),
-    checkConfirmPassword(password, confirmPassword),
-  ].every((fn) => fn === true);
-
-  if (isFormValid) alert('Success');
+  const formInputs = form.querySelectorAll('.form-group input');
+  formInputs.forEach((input) => validateSingleInput(input));
 };
 
 const submitForm = (e) => {
@@ -124,26 +142,11 @@ const submitForm = (e) => {
   validateForm();
 };
 
-const validateInput = (e) => {
-  switch (e.target.id) {
-    case 'first-name':
-      checkRequired(firstName, 'Please enter your name');
-      break;
-    case 'email':
-      checkEmail(email);
-      break;
-    case 'phone':
-      checkPhone(phone);
-      break;
-    case 'password':
-      checkPassword(password);
-      break;
-    case 'confirm-password':
-      checkConfirmPassword(password, confirmPassword);
-      break;
-  }
+const handleInput = (e) => {
+  const { target } = e;
+  validateSingleInput(target);
 };
 
 form.setAttribute('novalidate', '');
 form.addEventListener('submit', submitForm);
-form.addEventListener('input', debounce(validateInput));
+form.addEventListener('input', debounce(handleInput));
