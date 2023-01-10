@@ -132,14 +132,26 @@ const debounce = (fn, delay = 500) => {
   };
 };
 
-const validateForm = () => {
-  const formInputs = form.querySelectorAll('.form-group input');
-  formInputs.forEach((input) => validateSingleInput(input));
+const sendToAPI = (formEl) => {
+  const formObject = Array.from(formEl.elements)
+    .filter((el) => !el.matches('button'))
+    .reduce((acc, el) => ({ ...acc, [el.id]: el.value }), {});
+  alert(JSON.stringify(formObject, null, 4));
+};
+
+const validateForm = (formEl) => {
+  const formInputs = [...formEl.querySelectorAll('.form-group input')];
+  return formInputs.every((input) => validateSingleInput(input));
 };
 
 const submitForm = (e) => {
   e.preventDefault();
-  validateForm();
+  const { target } = e;
+  const isFormValid = validateForm(target);
+
+  if (isFormValid) {
+    sendToAPI(target);
+  }
 };
 
 const handleInput = (e) => {
