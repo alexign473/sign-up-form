@@ -2,6 +2,10 @@
 
 ## Project: Sign-Up Form
 
+## [Live](https://alexign473.github.io/sign-up-form/)
+
+![](Screenshot.jpg)
+
 Sign-up form for an imaginary service.
 
 ## Functionality
