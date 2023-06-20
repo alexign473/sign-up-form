@@ -2,7 +2,7 @@
 
 ## Project: Sign-Up Form
 
-## [Live](https://alexign473.github.io/sign-up-form/)
+## [Live](https://isikava.github.io/sign-up-form/)
 
 ![](Screenshot.jpg)
 
